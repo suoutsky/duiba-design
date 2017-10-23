@@ -15,7 +15,7 @@ import Datepicker from './components/Datepicker';
 import Timepicker from './components/Timepicker';
 import Daterangepicker from './components/Daterangepicker';
 import Select from './components/Select';
-// import FileUpload from './components/FileUpload';
+import FileUpload from './components/FileUpload';
 // import ImageUpload from './components/ImageUpload';
 // import MultiImageUpload from './components/MultiImageUpload';
 // import RichEditor from './components/RichEditor';
@@ -37,8 +37,8 @@ const components = [
   Datepicker,
   Timepicker,
   Daterangepicker,
-  Select
-  // FileUpload,
+  Select,
+  FileUpload
   // ImageUpload,
   // MultiImageUpload,
   // RichEditor
@@ -86,8 +86,8 @@ export default {
   Datepicker,
   Timepicker,
   Daterangepicker,
-  Select
-  // FileUpload,
+  Select,
+  FileUpload
   // ImageUpload,
   // MultiImageUpload,
   // RichEditor

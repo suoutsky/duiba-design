@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'file-uploads': true, 'file-uploads-html5': $mode == 'html5', 'file-uploads-html4': $mode == 'html4'}">
+    <div :class="{'file-uploads': true, 'file-uploads-html5': browserMode == 'html5', 'file-uploads-html4': browserMode == 'html4'}">
         <input-file></input-file>
     </div>
 </template>
@@ -54,7 +54,7 @@ export default {
 
   components: {
     inputFile : {
-      template: '<input type="file" :name="$parent.name" :id="$parent.id||$parent.name" :accept="$parent.accept" @change="change" :multiple="$parent.multiple && $parent.$mode == \'html5\'">',
+      template: '<input type="file" :name="$parent.name" :id="$parent.id||$parent.name" :accept="$parent.accept" @change="change" :multiple="$parent.multiple && $parent.browserMode == \'html5\'">',
       methods: {
         change(e) {
           this.$parent._addFileUploads(e.target);
@@ -72,6 +72,7 @@ export default {
       uploaded: true,
       dropActive: false,
       dropElement: false,
+      browserMode: '',
       request: {
         data: data,
         headers: {},
@@ -88,9 +89,9 @@ export default {
     var input = document.createElement('input');
     input.type = 'file';
     if (window.FormData && input.files)  {
-      this.$mode = 'html4';
+      this.browserMode = 'html5';
     } else {
-      this.$mode = 'html4';
+      this.browserMode = 'html4';
     }
     this._index = 0;
     this._dropActive = 0;
@@ -171,7 +172,7 @@ export default {
     },
 
     _drop(value) {
-      if (this.dropElement && this.$mode === 'html5') {
+      if (this.dropElement && this.browserMode === 'html5') {
         try {
           window.document.removeEventListener('dragenter', this._onDragenter, false);
           window.document.removeEventListener('dragleave', this._onDragleave, false);
@@ -193,7 +194,7 @@ export default {
       } else {
         this.dropElement = this.drop;
       }
-      if (this.dropElement && this.$mode === 'html5') {
+      if (this.dropElement && this.browserMode === 'html5') {
         window.document.addEventListener('dragenter', this._onDragenter, false);
         window.document.addEventListener('dragleave', this._onDragleave, false);
         this.dropElement.addEventListener('dragover', this._onDragover, false);
@@ -266,7 +267,9 @@ export default {
     },
 
     _addFileUploads(el) {
+      console.log(el);
       var Component = this.$options.components.inputFile;
+      console.log(Component);
       new Component({
         parent: this,
         el: el,
@@ -347,7 +350,7 @@ export default {
           }
         }
 
-        if (this.$mode == 'html5') {
+        if (this.browserMode == 'html5') {
           if (this.putAction || file.putAction) {
             this._fileUploadPut(file);
           } else if (this.postAction || file.postAction) {
@@ -496,6 +499,7 @@ export default {
       }, 100);
       this._uploadEvents('beforeFileUpload', file);
     },
+
     _fileUploadPut(file) {
         var _self = this;
 
@@ -518,8 +522,6 @@ export default {
         xhr.open('PUT', (file.putAction || this.putAction) + queryString);
         this._fileUploadXhr(xhr, file, this._files[file.id].file);
     },
-
-
 
     _fileUploadHtml5(file) {
       var form = new window.FormData();

@@ -1,5 +1,5 @@
 <template>
-  <div v-show="show" class="d-alert">
+  <div v-show="visible" class="d-alert">
     <i v-show="closable" class="iconhandle close" @click="close">&#xe609;</i>
     <slot></slot>
   </div>
@@ -24,9 +24,16 @@ export default {
       default: 'info'
     }
   },
+  data() {
+    return {
+      visible: this.show
+    };
+  },
   methods: {
     close() {
-      this.show = false;
+      this.visible = false;
+      this.$emit('update:show', false);
+      this.$emit('close');
     }
   }
 };

@@ -71,7 +71,7 @@ export default {
   },
   mounted() {
     if (!this.$refs.popover) return console.error("Couldn't find popover ref in your component that uses popoverMixin.");
-    const popover = this.$refs.popover;
+    // const popover = this.$refs.popover;
     const triger = this.$refs.trigger.children[0];
 
     if (this.trigger === 'hover') {
@@ -114,7 +114,7 @@ export default {
     // }
     // popover.style.top = this.position.top + 'px';
     // popover.style.left = this.position.left + 'px';
-    popover.style.visibility = 'hidden';
+    // popover.style.visibility = 'hidden';
     this.show = !this.show;
   },
   beforeDestroy() {

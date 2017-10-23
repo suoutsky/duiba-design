@@ -15,7 +15,9 @@ Vue.component('side-nav', SideNav);
 for (let i in DuibaDesign) {
   let module = DuibaDesign[i];
   if (!module.ignoreInit) {
-    Vue.component(module.name, module);
+    if (module.name) {
+      Vue.component(module.name, module);
+    }
   }
 }
 

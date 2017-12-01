@@ -1,10 +1,10 @@
 <template>
   <div class="d-image-upload-container">
     <div class="img" v-bind:class="{
-      'img-uploaded': !!value
+      'img-uploaded': !!imgUrl
     }">
       <p>
-        <img :src="value" alt="">
+        <img :src="imgUrl" alt="">
       </p>
     </div>
     <div class="upload-area">
@@ -12,7 +12,7 @@
         <slot name="upload-tip">
         </slot>
         <div class="upload-btn">
-          <fileupload class="file-upload" name="file" :post-action="uploadUrl" :put-action="uploadUrl" :extensions="extensions" :accept="accept" :size="size"></fileupload>
+          <fileupload ref="fileupload" class="file-upload" name="file" :post-action="uploadUrl" :put-action="uploadUrl" :extensions="extensions" :accept="accept" :size="size"  v-on:add-file-upload="addFileUpload" v-on:add-file-upload="addFileUpload" v-on:after-file-upload="afterFileUpload"></fileupload>
           <d-button>选择上传</d-button>
         </div>
       </div>
@@ -42,17 +42,22 @@ export default {
       type: String,
       default: '/upload/image'
     },
-    value: {
+    url: {
       type: String,
       twoWay: true,
       default: ''
     }
   },
-
+  data() {
+    return {
+      imgUrl: this.url
+    };
+  },
   methods: {
     afterFileUpload: function(file) {
-      this.value = file.data.data.value;
-      this.$emit('uploaded', this.value);
+      this.imgUrl = file.data && file.data.data && file.data.data.url;
+      this.$emit('update:url', this.imgUrl);
+      this.$emit('uploaded', this.imgUrl);
     }
   }
 };
@@ -63,9 +68,7 @@ export default {
   .img {
     padding: 5px;
     border: 1px solid #e5e5e5;
-    display: inline-block;
     float: left;
-
     img {
       opacity: 0;
     }

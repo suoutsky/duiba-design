@@ -1,6 +1,6 @@
 <template>
-  <div class="richeditor" v-el:richeditor>
-    <div class="richeditor-toolbar" id="{{toolbarId}}" style="display: none;">
+  <div class="richeditor" ref="richeditor">
+    <div class="richeditor-toolbar" :id="toolbarId" style="display: none;">
       <a data-wysihtml5-command="formatBlock" class="iconhandle" data-wysihtml5-command-value="h4" v-if="toolbar.formatBlock">&#xe62d;</a>
       <a data-wysihtml5-command="formatBlock" class="iconhandle" data-wysihtml5-command-value="p" v-if="toolbar.formatBlockP">&#xe656;</a>
       <a data-wysihtml5-command="fontSize" class="iconhandle" data-wysihtml5-command-value="large" v-if="toolbar.fontSize">&#xe62e;</a>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="wysihtml5-image-modal" data-wysihtml5-dialog="insertImage" style="display: none;" v-if="toolbar.insertImage">
-        <d-modal title="添加图片" :width="570" :show.sync="imageModalShow">
+        <d-modal title="添加图片" :width="570" :show.sync="imageModalShow" @update:show="imageModalShow=false">
           <div class="modal-header" slot="modal-header">
             <i class="iconhandle close" data-wysihtml5-dialog-action="cancel">&#xe609;</i>
             <h4 class="modal-title" > 
@@ -38,7 +38,7 @@
                 图片宽为{{imageWidth}}px格式为jpg、jpeg、png
               </p>
             </d-imageupload>
-            <input type="hidden" data-wysihtml5-dialog-field="src" :value="imageUrl" v-el:imageurl>
+            <input type="hidden" data-wysihtml5-dialog-field="src" :value="imageUrl" ref="imageurl">
           </div>
           <div class="modal-footer" slot="modal-footer">
             <d-button type="primary" data-wysihtml5-dialog-action="save" v-if="imageUrl.length !== 0">添加</d-button>
@@ -48,7 +48,7 @@
         </d-modal>
       </div>
     </div>
-    <textarea id="{{editorId}}" placeholder="{{placeholder}}" :value="description">
+    <textarea :id="editorId" :placeholder="placeholder" :value="description">
     </textarea>
   </div>
 </template>
@@ -120,7 +120,8 @@ export default {
     return {
       imageUrl: '',
       isInit: false,
-      imageModalShow: false
+      imageModalShow: false,
+      editorValue: ''
     };
   },
   watch: {
@@ -136,7 +137,8 @@ export default {
     }
   },
 
-  ready() {
+  mounted() {
+    this.editorValue = this.value;
     this.editor = new wysihtml5.Editor(this.editorId, {
       toolbar: this.toolbarId,
       parserRules: wysihtml5ParserRules,
@@ -144,11 +146,12 @@ export default {
       useLineBreaks: false
     });
     this.editor.on('blur', () => {
-      this.value = this.editor.getValue();
+      this.editorValue = this.editor.getValue();
+      this.$emit('update:value', this.editorValue);
     });
     this.editor.on('show:dialog', (event) => {
       if (event.command === 'insertImage') {
-        this.imageUrl = this.$els.imageurl.value;
+        this.imageUrl = this.$refs.imageurl.value;
       }
     });
   },
@@ -156,7 +159,8 @@ export default {
   methods: {
     insertImageClick: function() {
       if (!this.isInit) {
-        this.value = this.editor.getValue();
+        this.editorValue = this.editor.getValue();
+        this.$emit('update:value', this.editorValue);
       }
       this.imageModalShow = true;
       this.imageUrl = '';

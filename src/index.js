@@ -15,10 +15,13 @@ import Datepicker from './components/Datepicker';
 import Timepicker from './components/Timepicker';
 import Daterangepicker from './components/Daterangepicker';
 import Select from './components/Select';
-import FileUpload from './components/FileUpload';
+// import FileUpload from './components/FileUpload';
 // import ImageUpload from './components/ImageUpload';
 // import MultiImageUpload from './components/MultiImageUpload';
-// import RichEditor from './components/RichEditor';
+import Upload from './components/Upload';
+import Icon from './components/Icon';
+
+import RichEditor from './components/RichEditor';
 
 const components = [
   Alert,
@@ -38,10 +41,12 @@ const components = [
   Timepicker,
   Daterangepicker,
   Select,
-  FileUpload
+  Upload,
+  Icon,
+  // FileUpload,
   // ImageUpload,
   // MultiImageUpload,
-  // RichEditor
+  RichEditor
 ];
 
 const install = function(Vue, opts = {}) {
@@ -87,8 +92,10 @@ export default {
   Timepicker,
   Daterangepicker,
   Select,
-  FileUpload
+  // FileUpload,
   // ImageUpload,
   // MultiImageUpload,
-  // RichEditor
+  Upload,
+  Icon,
+  RichEditor
 };

@@ -8,7 +8,7 @@ module.exports = {
   extends: 'standard',
   // required to lint *.vue files
   plugins: [
-    'html'
+    'vue'
   ],
   // add your custom rules here
   'rules': {
@@ -27,7 +27,9 @@ module.exports = {
   "globals": {
     "duiba": true,
     "location": true,
+    "localStorage": true,
     "Swiper": true,
+    "NECaptcha": true,
     "wysihtml5": true,
     "wysihtml5ParserRules": true
   }

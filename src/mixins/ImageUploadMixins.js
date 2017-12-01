@@ -11,7 +11,7 @@ export default {
       required: true
     },
     height: {
-      type: Number,
+      type: [Number, String],
       default: 'auto'
     },
     size: {
@@ -27,7 +27,11 @@ export default {
       default: ''
     }
   },
-
+  data() {
+    return {
+      errortip: this.errorTip
+    };
+  },
   computed: {
     accept: function() {
       let str = [];
@@ -47,14 +51,15 @@ export default {
     }
   },
 
-  events: {
-    addFileUpload: 'addFileUpload',
-    afterFileUpload: 'afterFileUpload'
-  },
+  // events: {
+  //   addFileUpload: 'addFileUpload',
+  //   afterFileUpload: 'afterFileUpload'
+  // },
 
   methods: {
     addFileUpload: function(file, component) {
-      this.errorTip = '';
+      console.log('afterFileUpload', file);
+      this.errortip = '';
       let nameType = false;
       let extArray = this.extensions.split(',');
       extArray.forEach((item) => {
@@ -63,19 +68,22 @@ export default {
         }
       });
       if (!nameType) {
-        this.errorTip = '上传的图片格式不符合要求';
+        this.errortip = '上传的图片格式不符合要求';
         return;
       }
 
       if (file.size > this.size) {
-        this.errorTip = '图片大小超过上传大小';
+        this.errortip = '图片大小超过上传大小';
         return;
       }
-      if ((this.width && +file.width !== +this.width) || (this.height && +file.height !== +this.height)) {
-        this.errorTip = '上传的图片尺寸不符合要求';
+      if ((this.width && +file.width !== +this.width) || (this.height && this.height !== 'auto' && +file.height !== +this.height)) {
+        this.errortip = '上传的图片尺寸不符合要求';
         return;
       }
-      component.active = true;
+      this.$emit('update:errorTip', this.errortip);
+      // 设置component.active = true;
+      console.log(this.$refs.fileupload);
+      this.$refs.fileupload.active = true;
     }
   }
 };

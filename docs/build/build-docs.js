@@ -139,7 +139,9 @@
 	for (var i in _index2.default) {
 	  var _module = _index2.default[i];
 	  if (!_module.ignoreInit) {
-	    _vue2.default.component(_module.name, _module);
+	    if (_module.name) {
+	      _vue2.default.component(_module.name, _module);
+	    }
 	  }
 	}
 	
@@ -538,7 +540,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, setImmediate) {/*!
-	 * Vue.js v2.5.0
+	 * Vue.js v2.5.2
 	 * (c) 2014-2017 Evan You
 	 * Released under the MIT License.
 	 */
@@ -1009,6 +1011,92 @@
 	
 	/*  */
 	
+	// can we use __proto__?
+	var hasProto = '__proto__' in {};
+	
+	// Browser environment sniffing
+	var inBrowser = typeof window !== 'undefined';
+	var UA = inBrowser && window.navigator.userAgent.toLowerCase();
+	var isIE = UA && /msie|trident/.test(UA);
+	var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
+	var isEdge = UA && UA.indexOf('edge/') > 0;
+	var isAndroid = UA && UA.indexOf('android') > 0;
+	var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
+	var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
+	
+	// Firefox has a "watch" function on Object.prototype...
+	var nativeWatch = ({}).watch;
+	
+	var supportsPassive = false;
+	if (inBrowser) {
+	  try {
+	    var opts = {};
+	    Object.defineProperty(opts, 'passive', ({
+	      get: function get () {
+	        /* istanbul ignore next */
+	        supportsPassive = true;
+	      }
+	    })); // https://github.com/facebook/flow/issues/285
+	    window.addEventListener('test-passive', null, opts);
+	  } catch (e) {}
+	}
+	
+	// this needs to be lazy-evaled because vue may be required before
+	// vue-server-renderer can set VUE_ENV
+	var _isServer;
+	var isServerRendering = function () {
+	  if (_isServer === undefined) {
+	    /* istanbul ignore if */
+	    if (!inBrowser && typeof global !== 'undefined') {
+	      // detect presence of vue-server-renderer and avoid
+	      // Webpack shimming the process
+	      _isServer = global['process'].env.VUE_ENV === 'server';
+	    } else {
+	      _isServer = false;
+	    }
+	  }
+	  return _isServer
+	};
+	
+	// detect devtools
+	var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
+	
+	/* istanbul ignore next */
+	function isNative (Ctor) {
+	  return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
+	}
+	
+	var hasSymbol =
+	  typeof Symbol !== 'undefined' && isNative(Symbol) &&
+	  typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
+	
+	var _Set;
+	/* istanbul ignore if */ // $flow-disable-line
+	if (typeof Set !== 'undefined' && isNative(Set)) {
+	  // use native Set when available.
+	  _Set = Set;
+	} else {
+	  // a non-standard Set polyfill that only works with primitive keys.
+	  _Set = (function () {
+	    function Set () {
+	      this.set = Object.create(null);
+	    }
+	    Set.prototype.has = function has (key) {
+	      return this.set[key] === true
+	    };
+	    Set.prototype.add = function add (key) {
+	      this.set[key] = true;
+	    };
+	    Set.prototype.clear = function clear () {
+	      this.set = Object.create(null);
+	    };
+	
+	    return Set;
+	  }());
+	}
+	
+	/*  */
+	
 	var warn = noop;
 	var tip = noop;
 	var generateComponentTrace = (noop); // work around flow check
@@ -1099,220 +1187,6 @@
 	      return ("\n\n(found in " + (formatComponentName(vm)) + ")")
 	    }
 	  };
-	}
-	
-	/*  */
-	
-	function handleError (err, vm, info) {
-	  if (vm) {
-	    var cur = vm;
-	    while ((cur = cur.$parent)) {
-	      var hooks = cur.$options.errorCaptured;
-	      if (hooks) {
-	        for (var i = 0; i < hooks.length; i++) {
-	          try {
-	            var capture = hooks[i].call(cur, err, vm, info) === false;
-	            if (capture) { return }
-	          } catch (e) {
-	            globalHandleError(e, cur, 'errorCaptured hook');
-	          }
-	        }
-	      }
-	    }
-	  }
-	  globalHandleError(err, vm, info);
-	}
-	
-	function globalHandleError (err, vm, info) {
-	  if (config.errorHandler) {
-	    try {
-	      return config.errorHandler.call(null, err, vm, info)
-	    } catch (e) {
-	      logError(e, null, 'config.errorHandler');
-	    }
-	  }
-	  logError(err, vm, info);
-	}
-	
-	function logError (err, vm, info) {
-	  {
-	    warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
-	  }
-	  /* istanbul ignore else */
-	  if (inBrowser && typeof console !== 'undefined') {
-	    console.error(err);
-	  } else {
-	    throw err
-	  }
-	}
-	
-	/*  */
-	/* globals MessageChannel */
-	
-	// can we use __proto__?
-	var hasProto = '__proto__' in {};
-	
-	// Browser environment sniffing
-	var inBrowser = typeof window !== 'undefined';
-	var UA = inBrowser && window.navigator.userAgent.toLowerCase();
-	var isIE = UA && /msie|trident/.test(UA);
-	var isIE9 = UA && UA.indexOf('msie 9.0') > 0;
-	var isEdge = UA && UA.indexOf('edge/') > 0;
-	var isAndroid = UA && UA.indexOf('android') > 0;
-	var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA);
-	var isChrome = UA && /chrome\/\d+/.test(UA) && !isEdge;
-	
-	// Firefox has a "watch" function on Object.prototype...
-	var nativeWatch = ({}).watch;
-	
-	var supportsPassive = false;
-	if (inBrowser) {
-	  try {
-	    var opts = {};
-	    Object.defineProperty(opts, 'passive', ({
-	      get: function get () {
-	        /* istanbul ignore next */
-	        supportsPassive = true;
-	      }
-	    })); // https://github.com/facebook/flow/issues/285
-	    window.addEventListener('test-passive', null, opts);
-	  } catch (e) {}
-	}
-	
-	// this needs to be lazy-evaled because vue may be required before
-	// vue-server-renderer can set VUE_ENV
-	var _isServer;
-	var isServerRendering = function () {
-	  if (_isServer === undefined) {
-	    /* istanbul ignore if */
-	    if (!inBrowser && typeof global !== 'undefined') {
-	      // detect presence of vue-server-renderer and avoid
-	      // Webpack shimming the process
-	      _isServer = global['process'].env.VUE_ENV === 'server';
-	    } else {
-	      _isServer = false;
-	    }
-	  }
-	  return _isServer
-	};
-	
-	// detect devtools
-	var devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
-	
-	/* istanbul ignore next */
-	function isNative (Ctor) {
-	  return typeof Ctor === 'function' && /native code/.test(Ctor.toString())
-	}
-	
-	var hasSymbol =
-	  typeof Symbol !== 'undefined' && isNative(Symbol) &&
-	  typeof Reflect !== 'undefined' && isNative(Reflect.ownKeys);
-	
-	/**
-	 * Defer a task to execute it asynchronously.
-	 */
-	var nextTick = (function () {
-	  var callbacks = [];
-	  var pending = false;
-	  var timerFunc;
-	
-	  function nextTickHandler () {
-	    pending = false;
-	    var copies = callbacks.slice(0);
-	    callbacks.length = 0;
-	    for (var i = 0; i < copies.length; i++) {
-	      copies[i]();
-	    }
-	  }
-	
-	  // An asynchronous deferring mechanism.
-	  // In pre 2.4, we used to use microtasks (Promise/MutationObserver)
-	  // but microtasks actually has too high a priority and fires in between
-	  // supposedly sequential events (e.g. #4521, #6690) or even between
-	  // bubbling of the same event (#6566). Technically setImmediate should be
-	  // the ideal choice, but it's not available everywhere; and the only polyfill
-	  // that consistently queues the callback after all DOM events triggered in the
-	  // same loop is by using MessageChannel.
-	  /* istanbul ignore if */
-	  if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
-	    timerFunc = function () {
-	      setImmediate(nextTickHandler);
-	    };
-	  } else if (typeof MessageChannel !== 'undefined' && (
-	    isNative(MessageChannel) ||
-	    // PhantomJS
-	    MessageChannel.toString() === '[object MessageChannelConstructor]'
-	  )) {
-	    var channel = new MessageChannel();
-	    var port = channel.port2;
-	    channel.port1.onmessage = nextTickHandler;
-	    timerFunc = function () {
-	      port.postMessage(1);
-	    };
-	  } else
-	  /* istanbul ignore next */
-	  if (typeof Promise !== 'undefined' && isNative(Promise)) {
-	    // use microtask in non-DOM environments, e.g. Weex
-	    var p = Promise.resolve();
-	    timerFunc = function () {
-	      p.then(nextTickHandler);
-	    };
-	  } else {
-	    // fallback to setTimeout
-	    timerFunc = function () {
-	      setTimeout(nextTickHandler, 0);
-	    };
-	  }
-	
-	  return function queueNextTick (cb, ctx) {
-	    var _resolve;
-	    callbacks.push(function () {
-	      if (cb) {
-	        try {
-	          cb.call(ctx);
-	        } catch (e) {
-	          handleError(e, ctx, 'nextTick');
-	        }
-	      } else if (_resolve) {
-	        _resolve(ctx);
-	      }
-	    });
-	    if (!pending) {
-	      pending = true;
-	      timerFunc();
-	    }
-	    // $flow-disable-line
-	    if (!cb && typeof Promise !== 'undefined') {
-	      return new Promise(function (resolve, reject) {
-	        _resolve = resolve;
-	      })
-	    }
-	  }
-	})();
-	
-	var _Set;
-	/* istanbul ignore if */ // $flow-disable-line
-	if (typeof Set !== 'undefined' && isNative(Set)) {
-	  // use native Set when available.
-	  _Set = Set;
-	} else {
-	  // a non-standard Set polyfill that only works with primitive keys.
-	  _Set = (function () {
-	    function Set () {
-	      this.set = Object.create(null);
-	    }
-	    Set.prototype.has = function has (key) {
-	      return this.set[key] === true
-	    };
-	    Set.prototype.add = function add (key) {
-	      this.set[key] = true;
-	    };
-	    Set.prototype.clear = function clear () {
-	      this.set = Object.create(null);
-	    };
-	
-	    return Set;
-	  }());
 	}
 	
 	/*  */
@@ -2009,7 +1883,7 @@
 	        ? val
 	        : { type: val };
 	    }
-	  } else if ("development" !== 'production' && props) {
+	  } else {
 	    warn(
 	      "Invalid value for option \"props\": expected an Array or an Object, " +
 	      "but got " + (toRawType(props)) + ".",
@@ -2316,6 +2190,165 @@
 	  }
 	  /* istanbul ignore next */
 	  return false
+	}
+	
+	/*  */
+	
+	function handleError (err, vm, info) {
+	  if (vm) {
+	    var cur = vm;
+	    while ((cur = cur.$parent)) {
+	      var hooks = cur.$options.errorCaptured;
+	      if (hooks) {
+	        for (var i = 0; i < hooks.length; i++) {
+	          try {
+	            var capture = hooks[i].call(cur, err, vm, info) === false;
+	            if (capture) { return }
+	          } catch (e) {
+	            globalHandleError(e, cur, 'errorCaptured hook');
+	          }
+	        }
+	      }
+	    }
+	  }
+	  globalHandleError(err, vm, info);
+	}
+	
+	function globalHandleError (err, vm, info) {
+	  if (config.errorHandler) {
+	    try {
+	      return config.errorHandler.call(null, err, vm, info)
+	    } catch (e) {
+	      logError(e, null, 'config.errorHandler');
+	    }
+	  }
+	  logError(err, vm, info);
+	}
+	
+	function logError (err, vm, info) {
+	  {
+	    warn(("Error in " + info + ": \"" + (err.toString()) + "\""), vm);
+	  }
+	  /* istanbul ignore else */
+	  if (inBrowser && typeof console !== 'undefined') {
+	    console.error(err);
+	  } else {
+	    throw err
+	  }
+	}
+	
+	/*  */
+	/* globals MessageChannel */
+	
+	var callbacks = [];
+	var pending = false;
+	
+	function flushCallbacks () {
+	  pending = false;
+	  var copies = callbacks.slice(0);
+	  callbacks.length = 0;
+	  for (var i = 0; i < copies.length; i++) {
+	    copies[i]();
+	  }
+	}
+	
+	// Here we have async deferring wrappers using both micro and macro tasks.
+	// In < 2.4 we used micro tasks everywhere, but there are some scenarios where
+	// micro tasks have too high a priority and fires in between supposedly
+	// sequential events (e.g. #4521, #6690) or even between bubbling of the same
+	// event (#6566). However, using macro tasks everywhere also has subtle problems
+	// when state is changed right before repaint (e.g. #6813, out-in transitions).
+	// Here we use micro task by default, but expose a way to force macro task when
+	// needed (e.g. in event handlers attached by v-on).
+	var microTimerFunc;
+	var macroTimerFunc;
+	var useMacroTask = false;
+	
+	// Determine (macro) Task defer implementation.
+	// Technically setImmediate should be the ideal choice, but it's only available
+	// in IE. The only polyfill that consistently queues the callback after all DOM
+	// events triggered in the same loop is by using MessageChannel.
+	/* istanbul ignore if */
+	if (typeof setImmediate !== 'undefined' && isNative(setImmediate)) {
+	  macroTimerFunc = function () {
+	    setImmediate(flushCallbacks);
+	  };
+	} else if (typeof MessageChannel !== 'undefined' && (
+	  isNative(MessageChannel) ||
+	  // PhantomJS
+	  MessageChannel.toString() === '[object MessageChannelConstructor]'
+	)) {
+	  var channel = new MessageChannel();
+	  var port = channel.port2;
+	  channel.port1.onmessage = flushCallbacks;
+	  macroTimerFunc = function () {
+	    port.postMessage(1);
+	  };
+	} else {
+	  /* istanbul ignore next */
+	  macroTimerFunc = function () {
+	    setTimeout(flushCallbacks, 0);
+	  };
+	}
+	
+	// Determine MicroTask defer implementation.
+	/* istanbul ignore next, $flow-disable-line */
+	if (typeof Promise !== 'undefined' && isNative(Promise)) {
+	  var p = Promise.resolve();
+	  microTimerFunc = function () {
+	    p.then(flushCallbacks);
+	    // in problematic UIWebViews, Promise.then doesn't completely break, but
+	    // it can get stuck in a weird state where callbacks are pushed into the
+	    // microtask queue but the queue isn't being flushed, until the browser
+	    // needs to do some other work, e.g. handle a timer. Therefore we can
+	    // "force" the microtask queue to be flushed by adding an empty timer.
+	    if (isIOS) { setTimeout(noop); }
+	  };
+	} else {
+	  // fallback to macro
+	  microTimerFunc = macroTimerFunc;
+	}
+	
+	/**
+	 * Wrap a function so that if any code inside triggers state change,
+	 * the changes are queued using a Task instead of a MicroTask.
+	 */
+	function withMacroTask (fn) {
+	  return fn._withTask || (fn._withTask = function () {
+	    useMacroTask = true;
+	    var res = fn.apply(null, arguments);
+	    useMacroTask = false;
+	    return res
+	  })
+	}
+	
+	function nextTick (cb, ctx) {
+	  var _resolve;
+	  callbacks.push(function () {
+	    if (cb) {
+	      try {
+	        cb.call(ctx);
+	      } catch (e) {
+	        handleError(e, ctx, 'nextTick');
+	      }
+	    } else if (_resolve) {
+	      _resolve(ctx);
+	    }
+	  });
+	  if (!pending) {
+	    pending = true;
+	    if (useMacroTask) {
+	      macroTimerFunc();
+	    } else {
+	      microTimerFunc();
+	    }
+	  }
+	  // $flow-disable-line
+	  if (!cb && typeof Promise !== 'undefined') {
+	    return new Promise(function (resolve) {
+	      _resolve = resolve;
+	    })
+	  }
 	}
 	
 	/*  */
@@ -2638,14 +2671,16 @@
 	    lastIndex = res.length - 1;
 	    last = res[lastIndex];
 	    //  nested
-	    if (Array.isArray(c) && c.length > 0) {
-	      c = normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i));
-	      // merge adjacent text nodes
-	      if (isTextNode(c[0]) && isTextNode(last)) {
-	        res[lastIndex] = createTextVNode(last.text + (c[0]).text);
-	        c.shift();
+	    if (Array.isArray(c)) {
+	      if (c.length > 0) {
+	        c = normalizeArrayChildren(c, ((nestedIndex || '') + "_" + i));
+	        // merge adjacent text nodes
+	        if (isTextNode(c[0]) && isTextNode(last)) {
+	          res[lastIndex] = createTextVNode(last.text + (c[0]).text);
+	          c.shift();
+	        }
+	        res.push.apply(res, c);
 	      }
-	      res.push.apply(res, c);
 	    } else if (isPrimitive(c)) {
 	      if (isTextNode(last)) {
 	        // merge adjacent text nodes
@@ -4348,7 +4383,7 @@
 	      for (var key in value) {
 	        var existing = on[key];
 	        var ours = value[key];
-	        on[key] = existing ? [].concat(ours, existing) : ours;
+	        on[key] = existing ? [].concat(existing, ours) : ours;
 	      }
 	    }
 	  }
@@ -5425,7 +5460,7 @@
 	  }
 	});
 	
-	Vue$3.version = '2.5.0';
+	Vue$3.version = '2.5.2';
 	
 	/*  */
 	
@@ -7082,6 +7117,7 @@
 	// in some cases, the event used has to be determined at runtime
 	// so we used some reserved tokens during compile.
 	var RANGE_TOKEN = '__r';
+	var CHECKBOX_RADIO_TOKEN = '__c';
 	
 	function model (
 	  el,
@@ -7245,9 +7281,26 @@
 	    on[event] = [].concat(on[RANGE_TOKEN], on[event] || []);
 	    delete on[RANGE_TOKEN];
 	  }
+	  // This was originally intended to fix #4521 but no longer necessary
+	  // after 2.5. Keeping it for backwards compat with generated code from < 2.4
+	  /* istanbul ignore if */
+	  if (isDef(on[CHECKBOX_RADIO_TOKEN])) {
+	    on.change = [].concat(on[CHECKBOX_RADIO_TOKEN], on.change || []);
+	    delete on[CHECKBOX_RADIO_TOKEN];
+	  }
 	}
 	
 	var target$1;
+	
+	function createOnceHandler (handler, event, capture) {
+	  var _target = target$1; // save current target element in closure
+	  return function onceHandler () {
+	    var res = handler.apply(null, arguments);
+	    if (res !== null) {
+	      remove$2(event, onceHandler, capture, _target);
+	    }
+	  }
+	}
 	
 	function add$1 (
 	  event,
@@ -7256,18 +7309,8 @@
 	  capture,
 	  passive
 	) {
-	  if (once$$1) {
-	    var oldHandler = handler;
-	    var _target = target$1; // save current target element in closure
-	    handler = function (ev) {
-	      var res = arguments.length === 1
-	        ? oldHandler(ev)
-	        : oldHandler.apply(null, arguments);
-	      if (res !== null) {
-	        remove$2(event, handler, capture, _target);
-	      }
-	    };
-	  }
+	  handler = withMacroTask(handler);
+	  if (once$$1) { handler = createOnceHandler(handler, event, capture); }
 	  target$1.addEventListener(
 	    event,
 	    handler,
@@ -7283,7 +7326,11 @@
 	  capture,
 	  _target
 	) {
-	  (_target || target$1).removeEventListener(event, handler, capture);
+	  (_target || target$1).removeEventListener(
+	    event,
+	    handler._withTask || handler,
+	    capture
+	  );
 	}
 	
 	function updateDOMListeners (oldVnode, vnode) {
@@ -8603,6 +8650,10 @@
 	    children.forEach(applyTranslation);
 	
 	    // force reflow to put everything in position
+	    // assign to this to avoid being removed in tree-shaking
+	    // $flow-disable-line
+	    this._reflow = document.body.offsetHeight;
+	
 	    children.forEach(function (c) {
 	      if (c.data.moved) {
 	        var el = c.elm;
@@ -9859,7 +9910,7 @@
 	      addRawAttr(branch0, 'type', 'checkbox');
 	      processElement(branch0, options);
 	      branch0.processed = true; // prevent it from double-processed
-	      branch0.if = "type==='checkbox'" + ifConditionExtra;
+	      branch0.if = "(" + typeBinding + ")==='checkbox'" + ifConditionExtra;
 	      addIfCondition(branch0, {
 	        exp: branch0.if,
 	        block: branch0
@@ -9870,7 +9921,7 @@
 	      addRawAttr(branch1, 'type', 'radio');
 	      processElement(branch1, options);
 	      addIfCondition(branch0, {
-	        exp: "type==='radio'" + ifConditionExtra,
+	        exp: "(" + typeBinding + ")==='radio'" + ifConditionExtra,
 	        block: branch1
 	      });
 	      // 3. other
@@ -11490,7 +11541,7 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
-	  * vue-router v2.8.0
+	  * vue-router v2.8.1
 	  * (c) 2017 Evan You
 	  * @license MIT
 	  */
@@ -11587,13 +11638,17 @@
 	    };
 	
 	    // resolve props
-	    data.props = resolveProps(route, matched.props && matched.props[name]);
-	    data.attrs = {};
-	
-	    for (var key in data.props) {
-	      if (!('props' in component) || !(key in component.props)) {
-	        data.attrs[key] = data.props[key];
-	        delete data.props[key];
+	    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
+	    if (propsToPass) {
+	      // clone to prevent mutation
+	      propsToPass = data.props = extend({}, propsToPass);
+	      // pass non-declared props as attrs
+	      var attrs = data.attrs = data.attrs || {};
+	      for (var key in propsToPass) {
+	        if (!component.props || !(key in component.props)) {
+	          attrs[key] = propsToPass[key];
+	          delete propsToPass[key];
+	        }
 	      }
 	    }
 	
@@ -11620,6 +11675,13 @@
 	        );
 	      }
 	  }
+	}
+	
+	function extend (to, from) {
+	  for (var key in from) {
+	    to[key] = from[key];
+	  }
+	  return to
 	}
 	
 	/*  */
@@ -14096,7 +14158,7 @@
 	}
 	
 	VueRouter.install = install;
-	VueRouter.version = '2.8.0';
+	VueRouter.version = '2.8.1';
 	
 	if (inBrowser && window.Vue) {
 	  window.Vue.use(VueRouter);
@@ -16318,15 +16380,17 @@
 	
 	var _Select2 = _interopRequireDefault(_Select);
 	
+	var _FileUpload = __webpack_require__(264);
+	
+	var _FileUpload2 = _interopRequireDefault(_FileUpload);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import FileUpload from './components/FileUpload';
 	// import ImageUpload from './components/ImageUpload';
 	// import MultiImageUpload from './components/MultiImageUpload';
 	// import RichEditor from './components/RichEditor';
 	
-	var components = [_Alert2.default, _Button2.default, _Modal2.default, _MessageBox2.default, _Switch2.default, _Pagination2.default, _Tooltip2.default, _Tabs2.default, _Tab2.default, _Breadcrumb2.default, _BreadcrumbItem2.default, _Checkbox2.default, _CheckboxGroup2.default, _Datepicker2.default, _Timepicker2.default, _Daterangepicker2.default, _Select2.default
-	// FileUpload,
+	var components = [_Alert2.default, _Button2.default, _Modal2.default, _MessageBox2.default, _Switch2.default, _Pagination2.default, _Tooltip2.default, _Tabs2.default, _Tab2.default, _Breadcrumb2.default, _BreadcrumbItem2.default, _Checkbox2.default, _CheckboxGroup2.default, _Datepicker2.default, _Timepicker2.default, _Daterangepicker2.default, _Select2.default, _FileUpload2.default
 	// ImageUpload,
 	// MultiImageUpload,
 	// RichEditor
@@ -16376,8 +16440,8 @@
 	  Datepicker: _Datepicker2.default,
 	  Timepicker: _Timepicker2.default,
 	  Daterangepicker: _Daterangepicker2.default,
-	  Select: _Select2.default
-	  // FileUpload,
+	  Select: _Select2.default,
+	  FileUpload: _FileUpload2.default
 	  // ImageUpload,
 	  // MultiImageUpload,
 	  // RichEditor
@@ -16456,7 +16520,7 @@
 	  value: true
 	});
 	// <template>
-	//   <div v-show="show" class="d-alert">
+	//   <div v-show="visible" class="d-alert">
 	//     <i v-show="closable" class="iconhandle close" @click="close">&#xe609;</i>
 	//     <slot></slot>
 	//   </div>
@@ -16481,9 +16545,17 @@
 	      default: 'info'
 	    }
 	  },
+	  data: function data() {
+	    return {
+	      visible: this.show
+	    };
+	  },
+	
 	  methods: {
 	    close: function close() {
-	      this.show = false;
+	      this.visible = false;
+	      this.$emit('update:show', false);
+	      this.$emit('close');
 	    }
 	  }
 	};
@@ -16524,7 +16596,7 @@
 /* 145 */
 /***/ (function(module, exports) {
 
-	module.exports = "\n<div v-show=\"show\" class=\"d-alert\">\n  <i v-show=\"closable\" class=\"iconhandle close\" @click=\"close\">&#xe609;</i>\n  <slot></slot>\n</div>\n";
+	module.exports = "\n<div v-show=\"visible\" class=\"d-alert\">\n  <i v-show=\"closable\" class=\"iconhandle close\" @click=\"close\">&#xe609;</i>\n  <slot></slot>\n</div>\n";
 
 /***/ }),
 /* 146 */
@@ -17366,7 +17438,7 @@
 	    var _this = this;
 	
 	    if (!this.$refs.popover) return console.error("Couldn't find popover ref in your component that uses popoverMixin.");
-	    var popover = this.$refs.popover;
+	    // const popover = this.$refs.popover;
 	    var triger = this.$refs.trigger.children[0];
 	
 	    if (this.trigger === 'hover') {
@@ -17409,7 +17481,7 @@
 	    // }
 	    // popover.style.top = this.position.top + 'px';
 	    // popover.style.left = this.position.left + 'px';
-	    popover.style.visibility = 'hidden';
+	    // popover.style.visibility = 'hidden';
 	    this.show = !this.show;
 	  },
 	  beforeDestroy: function beforeDestroy() {
@@ -21532,6 +21604,719 @@
 /***/ (function(module, exports) {
 
 	module.exports = "\n<div class=\"select-group\" :class=\"{open: show}\" ref=\"container\" :disabled=\"disabled\">\n  <a class=\"select-toggle\" ref=\"trigger\">\n    {{selectItem && selectItem[labelName]}}\n    <i class=\"iconhandle\">&#xe618;</i>\n  </a>\n  <ul class=\"select-menu\" v-show=\"!disabled && show\">\n    <template v-if=\"options.length\">\n      <li v-for=\"option in options\" :id=\"option.id || option[idName]\" :class=\"{'active': isSelected(option)}\">\n        <a @mousedown.prevent=\"select(option.id || option[idName])\">\n          <i class=\"iconhandle\" v-show=\"isSelected(option)\">&#xe610;</i>\n          {{ option.label || option[labelName] }}\n        </a>\n      </li>\n    </template>\n  </ul>\n</div>\n";
+
+/***/ }),
+/* 264 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	var __vue_script__, __vue_template__
+	__vue_script__ = __webpack_require__(265)
+	__vue_template__ = __webpack_require__(266)
+	module.exports = __vue_script__ || {}
+	if (module.exports.__esModule) module.exports = module.exports.default
+	if (__vue_template__) { (typeof module.exports === "function" ? module.exports.options : module.exports).template = __vue_template__ }
+	if (false) {(function () {  module.hot.accept()
+	  var hotAPI = require("vue-hot-reload-api")
+	  hotAPI.install(require("vue"), true)
+	  if (!hotAPI.compatible) return
+	  var id = "/Applications/workspace/duiba-d/src/components/FileUpload.vue"
+	  if (!module.hot.data) {
+	    hotAPI.createRecord(id, module.exports)
+	  } else {
+	    hotAPI.update(id, module.exports, __vue_template__)
+	  }
+	})()}
+
+/***/ }),
+/* 265 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _typeof2 = __webpack_require__(192);
+	
+	var _typeof3 = _interopRequireDefault(_typeof2);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// <template>
+	//     <div :class="{'file-uploads': true, 'file-uploads-html5': browserMode == 'html5', 'file-uploads-html4': browserMode == 'html4'}">
+	//         <input-file></input-file>
+	//     </div>
+	// </template>
+	
+	// <script>
+	/* eslint-disable */
+	exports.default = {
+	  name: 'd-fileupload',
+	
+	  props: {
+	    title: {
+	      type: String,
+	      default: 'Upload file'
+	    },
+	    name: {
+	      type: String,
+	      default: 'file'
+	    },
+	    drop: {
+	      default: false
+	    },
+	    extensions: {
+	      default: function _default() {
+	        return [];
+	      }
+	    },
+	    formdata: {
+	      default: function _default() {}
+	    },
+	    postAction: {
+	      type: String
+	    },
+	    putAction: {
+	      type: String
+	    },
+	    accept: {
+	      type: String
+	    },
+	    multiple: {
+	      type: Boolean
+	    },
+	    timeout: {
+	      type: Number,
+	      default: 0
+	    },
+	    size: {
+	      type: Number
+	    },
+	    events: {
+	      type: Object,
+	      default: function _default() {}
+	    }
+	  },
+	
+	  components: {
+	    inputFile: {
+	      template: '<input type="file" :name="$parent.name" :id="$parent.id||$parent.name" :accept="$parent.accept" @change="change" :multiple="$parent.multiple && $parent.browserMode == \'html5\'">',
+	      methods: {
+	        change: function change(e) {
+	          this.$parent._addFileUploads(e.target);
+	          this.$destroy();
+	        }
+	      }
+	    }
+	  },
+	
+	  data: function data() {
+	    var data = this.formdata;
+	    return {
+	      files: [],
+	      active: false,
+	      uploaded: true,
+	      dropActive: false,
+	      dropElement: false,
+	      browserMode: '',
+	      request: {
+	        data: data,
+	        headers: {}
+	      }
+	    };
+	  },
+	  ready: function ready() {
+	    this._drop(this.drop);
+	  },
+	  init: function init() {
+	    var input = document.createElement('input');
+	    input.type = 'file';
+	    if (window.FormData && input.files) {
+	      this.browserMode = 'html5';
+	    } else {
+	      this.browserMode = 'html4';
+	    }
+	    this._index = 0;
+	    this._dropActive = 0;
+	    this._files = {};
+	  },
+	  beforeDestroy: function beforeDestroy() {
+	    this.active = false;
+	    this.files = [];
+	  },
+	
+	
+	  watch: {
+	    drop: function drop(value) {
+	      this._drop(value);
+	    },
+	    files: function files(_files) {
+	      var ids = [];
+	      for (var i = 0; i < _files.length; i++) {
+	        var file = _files[i];
+	        if (!file.errno && !file.success) {
+	          this.uploaded = false;
+	        }
+	        ids.push(file.id);
+	      }
+	      for (var id in this._files) {
+	        if (ids.indexOf(id) != -1) {
+	          continue;
+	        }
+	
+	        var file = this._files[id]._file;
+	
+	        file.removed = true;
+	        var xhr = this._files[id].xhr;
+	        if (xhr) {
+	          try {
+	            xhr.abort();
+	            xhr.timeout = 1;
+	          } catch (e) {}
+	        }
+	        var iframe = this._files[id].iframe;
+	        if (iframe) {
+	          iframe.onabort({ type: 'abort' });
+	        }
+	        delete this._files[id];
+	        this._uploadEvents('removeFileUpload', file);
+	      }
+	      this._index = 0;
+	    },
+	    active: function active(newValue, oldValue) {
+	      if (newValue && !oldValue) {
+	        this._fileUploads();
+	      }
+	    },
+	    uploaded: function uploaded(_uploaded) {
+	      if (_uploaded) {
+	        this.active = false;
+	      }
+	    }
+	  },
+	
+	  methods: {
+	    clear: function clear() {
+	      if (this.files.length) {
+	        this.files.splice(0, this.files.length);
+	      }
+	    },
+	    _uploadEvents: function _uploadEvents(name, file) {
+	      this.$dispatch && this.$dispatch(name, file, this);
+	      this[name] && this[name](file);
+	      this.events && this.events[name] && this.events[name](file, this);
+	    },
+	    _drop: function _drop(value) {
+	      if (this.dropElement && this.browserMode === 'html5') {
+	        try {
+	          window.document.removeEventListener('dragenter', this._onDragenter, false);
+	          window.document.removeEventListener('dragleave', this._onDragleave, false);
+	          this.dropElement.removeEventListener('dragover', this._onDragover, false);
+	          this.dropElement.removeEventListener('drop', this._onDrop, false);
+	        } catch (e) {}
+	      }
+	
+	      if (!value) {
+	        this.dropElement = false;
+	        return;
+	      }
+	
+	      if (typeof value == 'string') {
+	        this.dropElement = document.querySelector(value) || this.$root.$el.querySelector(value);
+	      } else if (typeof value == 'boolean') {
+	        this.dropElement = this.$parent.$el;
+	      } else {
+	        this.dropElement = this.drop;
+	      }
+	      if (this.dropElement && this.browserMode === 'html5') {
+	        window.document.addEventListener('dragenter', this._onDragenter, false);
+	        window.document.addEventListener('dragleave', this._onDragleave, false);
+	        this.dropElement.addEventListener('dragover', this._onDragover, false);
+	        this.dropElement.addEventListener('drop', this._onDrop, false);
+	      }
+	    },
+	    _onDragenter: function _onDragenter(e) {
+	      this._dropActive++;
+	      this.dropActive = !!this._dropActive;
+	      e.preventDefault();
+	    },
+	    _onDragleave: function _onDragleave(e) {
+	      e.preventDefault();
+	      this._dropActive--;
+	      if (e.target.nodeName == 'HTML' || e.screenX == 0 && e.screenY == 0) {
+	        this.dropActive = !!this._dropActive;
+	      }
+	    },
+	    _onDragover: function _onDragover(e) {
+	      e.preventDefault();
+	    },
+	    _addFileUpload: function _addFileUpload(hiddenData, file) {
+	      var defaultFile = {
+	        size: -1,
+	        name: 'Filename',
+	        progress: '0.00',
+	        speed: 0,
+	        active: false,
+	        error: '',
+	        errno: '',
+	        success: false,
+	        data: {},
+	        request: {
+	          headers: {},
+	          data: {}
+	        }
+	      };
+	      for (var key in defaultFile) {
+	        if (typeof file[key] == 'undefined') {
+	          file[key] = defaultFile[key];
+	        }
+	      }
+	      if (!file.id) {
+	        file.id = Math.random().toString(36).substr(2);
+	      }
+	
+	      if (!this.multiple) {
+	        this.clear();
+	      }
+	
+	      this._files[file.id] = hiddenData;
+	      file = this.files[this.files.push(file) - 1];
+	      this._files[file.id]._file = file;
+	      this._uploadEvents('addFileUpload', file);
+	    },
+	    _onDrop: function _onDrop(e) {
+	      this._dropActive = 0;
+	      this.dropActive = false;
+	      e.preventDefault();
+	      if (e.dataTransfer.files.length) {
+	        for (var i = 0; i < e.dataTransfer.files.length; i++) {
+	          var file = e.dataTransfer.files[i];
+	          this._addFileUpload({ file: file }, { size: file.size, name: file.name });
+	          if (!this.multiple) {
+	            break;
+	          }
+	        }
+	      }
+	    },
+	    _addFileUploads: function _addFileUploads(el) {
+	      var _this2 = this;
+	
+	      console.log(el);
+	      var Component = this.$options.components.inputFile;
+	      console.log(Component);
+	      new Component({
+	        parent: this,
+	        el: el
+	      });
+	      this.uploaded = false;
+	
+	      var reader = FileReader && new FileReader();
+	      var _this = this;
+	      if (el.files) {
+	        var _loop = function _loop(i) {
+	          var file = el.files[i];
+	          if (_this2.accept.indexOf('image') !== -1) {
+	            reader.readAsDataURL(file);
+	            reader.onload = function (thefile) {
+	              var img = new Image();
+	              img.src = thefile.target.result;
+	              img.onload = function () {
+	                _this._addFileUpload({
+	                  file: file,
+	                  el: el
+	                }, {
+	                  size: file.size,
+	                  name: file.name,
+	                  width: this.width,
+	                  height: this.height
+	                });
+	              };
+	            };
+	          } else {
+	            _this2._addFileUpload({
+	              file: file,
+	              el: el
+	            }, {
+	              size: file.size,
+	              name: file.name
+	            });
+	          }
+	        };
+	
+	        for (var i = 0; i < el.files.length; i++) {
+	          _loop(i);
+	        }
+	      } else {
+	        this._addFileUpload({ el: el }, { size: -1, name: el.value.replace(/^.*?([^\/\\\r\n]+)$/, '$1') });
+	      }
+	    },
+	    _fileUploads: function _fileUploads() {
+	      if (!this.active) {
+	        return;
+	      }
+	      for (; this._index < this.files.length; this._index++) {
+	        var file = this.files[this._index];
+	        if (file.active || file.success || file.errno) {
+	          continue;
+	        }
+	        if (this.size && this.size > 0 && file.size >= 0 && file.size > this.size) {
+	          file.error = 'Size';
+	          file.errno = 'size';
+	          continue;
+	        }
+	
+	        if (this.extensions && (this.extensions.length || typeof this.extensions.length == 'undefined')) {
+	          var extensions = this.extensions;
+	          if ((typeof extensions === 'undefined' ? 'undefined' : (0, _typeof3.default)(extensions)) == 'object' && extensions instanceof RegExp) {} else {
+	            if (typeof extensions == 'string') {
+	              extensions = extensions.split(',').map(function (value) {
+	                return value.trim();
+	              }).filter(function (value) {
+	                return value;
+	              });
+	            }
+	            extensions = new RegExp('\\.(' + extensions.join('|').replace(/\./g, '\\.') + ')$', 'i');
+	          }
+	
+	          if (file.name.search(extensions) == -1) {
+	            file.error = 'Extension';
+	            file.errno = 'extension';
+	            continue;
+	          }
+	        }
+	
+	        if (this.browserMode == 'html5') {
+	          if (this.putAction || file.putAction) {
+	            this._fileUploadPut(file);
+	          } else if (this.postAction || file.postAction) {
+	            this._fileUploadHtml5(file);
+	          } else {
+	            file.error = 'Not Support';
+	            file.errno = 'not_support';
+	            continue;
+	          }
+	        } else {
+	          if (this.postAction || file.postAction) {
+	            this._fileUploadHtml4(file);
+	          } else {
+	            file.error = 'Not Support';
+	            file.errno = 'not_support';
+	            continue;
+	          }
+	        }
+	        return;
+	      }
+	      this.active = false;
+	      this.uploaded = true;
+	    },
+	    _fileUploadXhr: function _fileUploadXhr(xhr, file, data) {
+	      var _self = this;
+	      var hiddenData = this._files[file.id];
+	      var fileUploads = false;
+	      var speedTime = 0;
+	      var speedLoaded = 0;
+	      xhr.upload.onprogress = function (e) {
+	        if (file.removed) {
+	          xhr.abort();
+	          return;
+	        }
+	        if (!_self.active || !file.active) {
+	          xhr.abort();
+	          return;
+	        }
+	        if (e.lengthComputable) {
+	          file.progress = (e.loaded / e.total * 100).toFixed(2);
+	          var speedTime2 = Math.round(Date.now() / 1000);
+	          if (speedTime2 != speedTime) {
+	            file.speed = e.loaded - speedLoaded;
+	            speedLoaded = e.loaded;
+	            speedTime = speedTime2;
+	          }
+	        }
+	        _self._uploadEvents('fileUploadProgress', file);
+	      };
+	
+	      var callback = function callback(e) {
+	        switch (e.type) {
+	          case 'timeout':
+	            file.errno = 'timeout';
+	            file.error = 'Timeout';
+	            break;
+	          case 'abort':
+	            file.errno = 'abort';
+	            file.error = 'Abort';
+	            break;
+	          case 'error':
+	            if (!xhr.status) {
+	              file.errno = 'network';
+	              file.error = 'Network';
+	            } else if (xhr.status >= 500) {
+	              file.errno = 'server';
+	              file.error = 'Server';
+	            } else if (xhr.status >= 400) {
+	              file.errno = 'denied';
+	              file.error = 'Denied';
+	            }
+	            break;
+	          default:
+	            if (xhr.status >= 500) {
+	              file.errno = 'server';
+	              file.error = 'Server';
+	            } else if (xhr.status >= 400) {
+	              file.errno = 'denied';
+	              file.error = 'Denied';
+	            } else {
+	              file.progress = '100.00';
+	              file.success = true;
+	            }
+	        }
+	        file.active = false;
+	        if (xhr.responseText) {
+	          var contentType = xhr.getResponseHeader('Content-Type');
+	          if (contentType && contentType.indexOf('/json') != -1) {
+	            file.data = JSON.parse(xhr.responseText);
+	          } else {
+	            file.data = xhr.responseText;
+	          }
+	        }
+	        if (!fileUploads) {
+	          fileUploads = true;
+	          if (!file.removed) {
+	            _self._uploadEvents('afterFileUpload', file);
+	          }
+	          setTimeout(function () {
+	            _self._fileUploads();
+	          }, 50);
+	        }
+	      };
+	
+	      xhr.onload = callback;
+	      xhr.onerror = callback;
+	      xhr.onabort = callback;
+	      xhr.ontimeout = callback;
+	
+	      if (this.timeout) {
+	        xhr.timeout = this.timeout;
+	      }
+	
+	      xhr.onload = callback;
+	      xhr.onerror = callback;
+	      xhr.onabort = callback;
+	      xhr.ontimeout = callback;
+	
+	      if (this.timeout) {
+	        xhr.timeout = this.timeout;
+	      }
+	
+	      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+	      for (var key in this.request.headers) {
+	        xhr.setRequestHeader(key, this.request.headers[key]);
+	      }
+	      for (var key in file.request.headers) {
+	        xhr.setRequestHeader(key, file.request.headers[key]);
+	      }
+	
+	      xhr.send(data);
+	      file.active = true;
+	      hiddenData.xhr = xhr;
+	      var interval = setInterval(function () {
+	        if (!_self.active || !file.active || file.success || file.errno) {
+	          clearInterval(interval);
+	          if (!file.success && !file.errno) {
+	            xhr.abort();
+	          }
+	        }
+	      }, 100);
+	      this._uploadEvents('beforeFileUpload', file);
+	    },
+	    _fileUploadPut: function _fileUploadPut(file) {
+	      var _self = this;
+	
+	      var querys = {};
+	      for (var key in this.request.data) {
+	        querys[key] = this.request.data[key];
+	      }
+	      for (var _key in file.request.data) {
+	        querys[_key] = file.request.data[_key];
+	      }
+	      var queryArray = [];
+	      for (var _key2 in querys) {
+	        if (querys[_key2] !== null && typeof querys[_key2] !== 'undefined') {
+	          queryArray.push(encodeURIComponent(_key2) + '=' + encodeURIComponent(querys[_key2]));
+	        }
+	      }
+	      var queryString = queryArray.length ? '?' + queryArray.join('&') : '';
+	
+	      var xhr = new XMLHttpRequest();
+	      xhr.open('PUT', (file.putAction || this.putAction) + queryString);
+	      this._fileUploadXhr(xhr, file, this._files[file.id].file);
+	    },
+	    _fileUploadHtml5: function _fileUploadHtml5(file) {
+	      var form = new window.FormData();
+	      form.append(this.name, this._files[file.id].file);
+	      for (var key in this.request.data) {
+	        form.append(key, this.request.data[key]);
+	      }
+	
+	      for (var key in file.request.data) {
+	        form.append(key, file.request.data[key]);
+	      }
+	
+	      var xhr = new XMLHttpRequest();
+	      xhr.open('POST', file.postAction || this.postAction);
+	      this._fileUploadXhr(xhr, file, form);
+	    },
+	    _fileUploadHtml4: function _fileUploadHtml4(file) {
+	      var _self = this;
+	      var hiddenData = this._files[file.id];
+	
+	      var fileUploads = false;
+	
+	      var keydown = function keydown(e) {
+	        if (e.keyCode == 27) {
+	          e.preventDefault();
+	        }
+	      };
+	
+	      var iframe = document.createElement('iframe');
+	      iframe.id = 'upload-iframe-' + file.id;
+	      iframe.name = 'upload-iframe-' + file.id;
+	      iframe.src = 'about:blank';
+	      iframe.style.width = '1px';
+	      iframe.style.height = '1px';
+	      iframe.style.top = '-9999px';
+	      iframe.style.left = '-9999px';
+	      iframe.style.position = 'absolute';
+	      iframe.style.marginTop = '-9999em';
+	
+	      var form = document.createElement('form');
+	      form.action = file.postAction || this.postAction;
+	      form.name = 'upload-form-' + file.id;
+	      form.setAttribute('method', 'POST');
+	      form.setAttribute('target', 'upload-iframe-' + file.id);
+	      form.setAttribute('enctype', 'multipart/form-data');
+	      form.appendChild(hiddenData.el);
+	      for (var key in this.request.data) {
+	        var input = document.createElement('input');
+	        input.type = 'hidden';
+	        input.name = key;
+	        input.value = this.request.data[key];
+	        form.appendChild(input);
+	      }
+	
+	      for (var key in file.request.data) {
+	        var input = document.createElement('input');
+	        input.type = 'hidden';
+	        input.name = key;
+	        input.value = file.request.data[key];
+	        form.appendChild(input);
+	      }
+	
+	      var getDocumentData = function getDocumentData() {
+	        var doc;
+	        try {
+	          if (iframe.contentWindow) {
+	            doc = iframe.contentWindow.document;
+	          }
+	        } catch (err) {}
+	        if (!doc) {
+	          try {
+	            doc = iframe.contentDocument ? iframe.contentDocument : iframe.document;
+	          } catch (err) {
+	            doc = iframe.document;
+	          }
+	        }
+	        if (doc && doc.body) {
+	          return doc.body.innerText;
+	        }
+	        return null;
+	      };
+	
+	      var callback = function callback(e) {
+	        switch (e.type) {
+	          case 'abort':
+	            file.errno = 'abort';
+	            file.error = 'Abort';
+	            break;
+	          case 'error':
+	            var data = getDocumentData();
+	            if (file.errno) {} else if (data === null) {
+	              file.errno = 'network';
+	              file.error = 'Network';
+	            } else {
+	              file.errno = 'denied';
+	              file.error = 'Denied';
+	            }
+	            break;
+	          default:
+	            var data = getDocumentData();
+	            if (file.errno) {} else if (data === null) {
+	              file.errno = 'network';
+	              file.error = 'Network';
+	            } else {
+	              file.progress = '100.00';
+	              file.success = true;
+	            }
+	        }
+	
+	        file.active = false;
+	        if (typeof data != "undefined") {
+	          if (data && data.substr(0, 1) == '{' && data.substr(data.length - 1, 1) == '}') {
+	            try {
+	              data = JSON.parse(data);
+	            } catch (err) {}
+	          }
+	          file.data = data;
+	        }
+	        if (!fileUploads) {
+	          document.body.removeEventListener('keydown', keydown);
+	          document.body.removeEventListener('keydown', keydown);
+	          fileUploads = true;
+	          iframe.parentNode && iframe.parentNode.removeChild(iframe);
+	          if (!file.removed) {
+	            _self._uploadEvents('afterFileUpload', file);
+	          }
+	          setTimeout(function () {
+	            _self._fileUploads();
+	          }, 50);
+	        }
+	      };
+	
+	      setTimeout(function () {
+	        document.body.appendChild(iframe).appendChild(form).submit();
+	        iframe.onload = callback;
+	        iframe.onerror = callback;
+	        iframe.onabort = callback;
+	
+	        file.active = true;
+	
+	        hiddenData.iframe = iframe;
+	
+	        document.body.addEventListener('keydown', keydown);
+	        var interval = setInterval(function () {
+	          if (!_self.active || !file.active || file.success || file.errno) {
+	            clearInterval(interval);
+	            if (!file.success && !file.errno) {
+	              iframe.onabort({ type: 'abort' });
+	            }
+	          }
+	        }, 50);
+	        _self._uploadEvents('beforeFileUpload', file);
+	      }, 10);
+	    }
+	  }
+	  // </script>
+	
+	  /* generated by vue-loader */
+	
+	};
+
+/***/ }),
+/* 266 */
+/***/ (function(module, exports) {
+
+	module.exports = "\n<div :class=\"{'file-uploads': true, 'file-uploads-html5': browserMode == 'html5', 'file-uploads-html4': browserMode == 'html4'}\">\n    <input-file></input-file>\n</div>\n";
 
 /***/ })
 /******/ ]);

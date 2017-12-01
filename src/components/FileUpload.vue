@@ -8,7 +8,6 @@
 /* eslint-disable */
 export default {
   name: 'd-fileupload',
-
   props: {
     title: {
       type: String,
@@ -68,6 +67,7 @@ export default {
     let data = this.formdata;
     return {
       files: [],
+      fileObj: {},
       active: false,
       uploaded: true,
       dropActive: false,
@@ -80,12 +80,7 @@ export default {
     }
   },
 
-  ready() {
-    this._drop(this.drop);
-  },
-
-
-  init() {
+  mounted() {
     var input = document.createElement('input');
     input.type = 'file';
     if (window.FormData && input.files)  {
@@ -95,10 +90,9 @@ export default {
     }
     this._index = 0;
     this._dropActive = 0;
-    this._files = {};
+    this.fileObj = {};
+    this._drop(this.drop);
   },
-
-
   beforeDestroy() {
     this.active = false;
     this.files = [];
@@ -108,7 +102,8 @@ export default {
     drop(value) {
       this._drop(value);
     },
-    files(files) {
+    files(val, files) {
+      console.log('files', val, files);
       var ids = [];
       for (var i = 0; i < files.length; i++) {
         var file = files[i];
@@ -117,16 +112,16 @@ export default {
         }
         ids.push(file.id);
       }
-      for (var id in this._files) {
+      for (var id in this.fileObj) {
         if (ids.indexOf(id) != -1) {
           continue;
         }
 
 
-        var file = this._files[id]._file;
+        var file = this.fileObj[id]._file;
 
         file.removed = true;
-        var xhr = this._files[id].xhr;
+        var xhr = this.fileObj[id].xhr;
         if (xhr) {
           try {
             xhr.abort();
@@ -135,11 +130,11 @@ export default {
 
           }
         }
-        var iframe = this._files[id].iframe;
+        var iframe = this.fileObj[id].iframe;
         if (iframe) {
           iframe.onabort({type:'abort'});
         }
-        delete this._files[id];
+        delete this.fileObj[id];
         this._uploadEvents('removeFileUpload', file);
       }
       this._index = 0;
@@ -166,9 +161,11 @@ export default {
     },
 
     _uploadEvents(name, file) {
-      this.$dispatch && this.$dispatch(name, file, this);
+      // 调用 _self._uploadEvents('afterFileUpload', file);
+      // this.$dispatch && this.$dispatch(name, file, this);
+      this.$emit(name, file);
       this[name] && this[name](file);
-      this.events && this.events[name] && this.events[name](file, this);
+      // this.events && this.events[name] && this.events[name](file, this);
     },
 
     _drop(value) {
@@ -216,7 +213,6 @@ export default {
     _onDragover(e) {
       e.preventDefault();
     },
-
     _addFileUpload(hiddenData, file) {
       var defaultFile = {
         size:-1,
@@ -246,10 +242,10 @@ export default {
         this.clear();
       }
 
-      this._files[file.id] = hiddenData;
+      this.fileObj[file.id] = hiddenData;
       file = this.files[this.files.push(file) - 1];
-      this._files[file.id]._file = file;
-      this._uploadEvents('addFileUpload', file);
+      this.fileObj[file.id]._file = file;
+      this._uploadEvents('add-file-upload', file);
     },
     _onDrop(e) {
       this._dropActive = 0;
@@ -267,21 +263,18 @@ export default {
     },
 
     _addFileUploads(el) {
-      console.log(el);
-      var Component = this.$options.components.inputFile;
-      console.log(Component);
-      new Component({
-        parent: this,
-        el: el,
-      });
+      // var Component = this.$options.components.inputFile._Ctor[0];
+      // new Component({
+      //   parent: this,
+      //   el: el,
+      // });
       this.uploaded = false;
-
       var reader = FileReader && new FileReader();
       var _this = this;
       if (el.files) {
         for (let i = 0; i < el.files.length; i++) {
           let file = el.files[i];
-          if (this.accept.indexOf('image') !== -1) {
+          if (this.accept && this.accept.indexOf('image') !== -1) {
             reader.readAsDataURL(file);
             reader.onload = function(thefile) {
               var img = new Image();
@@ -362,6 +355,7 @@ export default {
           }
         } else {
           if (this.postAction || file.postAction) {
+            console.log(1);
             this._fileUploadHtml4(file);
           } else {
             file.error = 'Not Support';
@@ -377,7 +371,7 @@ export default {
 
     _fileUploadXhr(xhr, file, data) {
       var _self = this;
-      var hiddenData = this._files[file.id];
+      var hiddenData = this.fileObj[file.id];
       var fileUploads = false;
       var speedTime = 0;
       var speedLoaded = 0;
@@ -399,7 +393,7 @@ export default {
             speedTime = speedTime2;
           }
         }
-        _self._uploadEvents('fileUploadProgress', file);
+        _self._uploadEvents('file-upload-progress', file);
       };
 
 
@@ -449,7 +443,7 @@ export default {
           if (!fileUploads) {
             fileUploads = true;
             if (!file.removed) {
-              _self._uploadEvents('afterFileUpload', file);
+              _self._uploadEvents('after-file-upload', file);
             }
             setTimeout(function() {
               _self._fileUploads();
@@ -497,7 +491,7 @@ export default {
           }
         }
       }, 100);
-      this._uploadEvents('beforeFileUpload', file);
+      this._uploadEvents('before-file-upload', file);
     },
 
     _fileUploadPut(file) {
@@ -520,12 +514,12 @@ export default {
 
         var xhr = new XMLHttpRequest();
         xhr.open('PUT', (file.putAction || this.putAction) + queryString);
-        this._fileUploadXhr(xhr, file, this._files[file.id].file);
+        this._fileUploadXhr(xhr, file, this.fileObj[file.id].file);
     },
 
     _fileUploadHtml5(file) {
       var form = new window.FormData();
-      form.append(this.name, this._files[file.id].file);
+      form.append(this.name, this.fileObj[file.id].file);
       for (var key in this.request.data) {
         form.append(key, this.request.data[key]);
       }
@@ -541,7 +535,7 @@ export default {
 
     _fileUploadHtml4(file) {
       var _self = this;
-      var hiddenData = this._files[file.id];
+      var hiddenData = this.fileObj[file.id];
 
       var fileUploads = false;
 
@@ -590,6 +584,7 @@ export default {
 
       var getDocumentData = function() {
         var doc;
+        console.dir(iframe);
         try {
           if (iframe.contentWindow) {
             doc = iframe.contentWindow.document;
@@ -658,7 +653,7 @@ export default {
             fileUploads = true;
             iframe.parentNode && iframe.parentNode.removeChild(iframe);
             if (!file.removed) {
-              _self._uploadEvents('afterFileUpload', file);
+              _self._uploadEvents('after-file-upload', file);
             }
             setTimeout(function() {
               _self._fileUploads();
@@ -686,7 +681,7 @@ export default {
             }
           }
         }, 50);
-        _self._uploadEvents('beforeFileUpload', file);
+        _self._uploadEvents('before-file-upload', file);
       }, 10);
     },
   }

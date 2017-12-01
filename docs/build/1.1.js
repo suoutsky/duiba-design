@@ -55,7 +55,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/alert-3.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/alert-2.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -79,8 +79,8 @@ webpackJsonp([1],Array(24).concat([
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-a933232c&file=alert-3.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./alert-3.vue", function() {
-				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-a933232c&file=alert-3.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./alert-3.vue");
+			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-a94f522e&file=alert-2.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./alert-2.vue", function() {
+				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-a94f522e&file=alert-2.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./alert-2.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -98,7 +98,7 @@ webpackJsonp([1],Array(24).concat([
 	
 	
 	// module
-	exports.push([module.id, ".tip {\n  margin: 20px 0;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/alert-3.vue"],"names":[],"mappings":"AAAA;EACE,eAAe;CAChB","file":"alert-3.vue","sourcesContent":[".tip {\n  margin: 20px 0;\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".tip {\n  margin: 20px 0;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/alert-2.vue"],"names":[],"mappings":"AAAA;EACE,eAAe;CAChB","file":"alert-2.vue","sourcesContent":[".tip {\n  margin: 20px 0;\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -107,7 +107,7 @@ webpackJsonp([1],Array(24).concat([
 /* 29 */
 /***/ (function(module, exports) {
 
-	module.exports = "<section>\n<h2 id=\"alert-jing-gao\"><a class=\"header-anchor\" href=\"#alert-jing-gao\" aria-hidden=\"true\">¶</a> Alert 警告</h2>\n<p>用于页面中展示重要的提示信息。</p>\n<h3 id=\"ji-ben-yong-fa\"><a class=\"header-anchor\" href=\"#ji-ben-yong-fa\" aria-hidden=\"true\">¶</a> 基本用法</h3>\n<p>页面中的非浮层元素，不会自动消失。</p>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-alert :closable=\"false\">\n  这是一个不能关闭的alert\n</d-alert>\n<d-alert>\n  这是一个可以关闭的alert\n</d-alert>\n</div>\n                      <p>Alert 组件提供目前就一种类型，后续有需求可以添加 <code>type</code> 属性。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-alert</span> <span class=\"hljs-attr\">:closable</span>=<span class=\"hljs-string\">\"false\"</span>&gt;</span>\n  这是一个不能关闭的alert\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-alert</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-alert</span>&gt;</span>\n  这是一个可以关闭的alert\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-alert</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attribute\"><a class=\"header-anchor\" href=\"#attribute\" aria-hidden=\"true\">¶</a> Attribute</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>closable</td>\n<td>是否可关闭</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n<tr>\n<td>show</td>\n<td>是否显示</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n</tbody>\n</table>\n</section>";
+	module.exports = "<section>\n<h2 id=\"alert-jing-gao\"><a class=\"header-anchor\" href=\"#alert-jing-gao\" aria-hidden=\"true\">¶</a> Alert 警告</h2>\n<p>用于页面中展示重要的提示信息。</p>\n<h3 id=\"ji-ben-yong-fa\"><a class=\"header-anchor\" href=\"#ji-ben-yong-fa\" aria-hidden=\"true\">¶</a> 基本用法</h3>\n<p>页面中的非浮层元素，不会自动消失。</p>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-alert :closable=\"false\">\n  这是一个不能关闭的alert\n</d-alert>\n<d-alert>\n  这是一个可以关闭的alert\n</d-alert>\n</div>\n                      <p>Alert 组件提供目前就一种类型，后续有需求可以添加 <code>type</code> 属性。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-alert</span> <span class=\"hljs-attr\">:closable</span>=<span class=\"hljs-string\">\"false\"</span>&gt;</span>\n  这是一个不能关闭的alert\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-alert</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-alert</span>&gt;</span>\n  这是一个可以关闭的alert\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-alert</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attribute\"><a class=\"header-anchor\" href=\"#attribute\" aria-hidden=\"true\">¶</a> Attribute</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>closable</td>\n<td>是否可关闭</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n<tr>\n<td>show</td>\n<td>是否显示</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n</tbody>\n</table>\n<h3 id=\"event\"><a class=\"header-anchor\" href=\"#event\" aria-hidden=\"true\">¶</a> Event</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>事件名称</th>\n<th>说明</th>\n<th>回调参数</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>update:show</td>\n<td>关闭时触发，是否显示false</td>\n<td>false</td>\n</tr>\n<tr>\n<td>close</td>\n<td>关闭时触发</td>\n<td>—</td>\n</tr>\n</tbody>\n</table>\n</section>";
 
 /***/ }),
 /* 30 */
@@ -128,7 +128,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/breadcrumb-1.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/breadcrumb-3.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -162,7 +162,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/button-2.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/button-1.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -571,7 +571,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/datepicker-6.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/datepicker-5.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -595,8 +595,8 @@ webpackJsonp([1],Array(24).concat([
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-449fcca6&file=datepicker-6.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./datepicker-6.vue", function() {
-				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-449fcca6&file=datepicker-6.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./datepicker-6.vue");
+			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-44bbfba8&file=datepicker-5.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./datepicker-5.vue", function() {
+				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-44bbfba8&file=datepicker-5.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./datepicker-5.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -614,7 +614,7 @@ webpackJsonp([1],Array(24).concat([
 	
 	
 	// module
-	exports.push([module.id, ".form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  line-height: 34px;\n  box-sizing: border-box;\n  padding: 0 10px;\n  border: 1px solid #ccc;\n  border-radius: 2px;\n  font-size: 14px;\n}\n.form-control:focus {\n  outline: 0;\n  border-color: #a8e7e7;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/datepicker-6.vue"],"names":[],"mappings":"AAAA;EACE,eAAe;EACf,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,uBAAuB;EACvB,gBAAgB;EAChB,uBAAuB;EACvB,mBAAmB;EACnB,gBAAgB;CACjB;AACD;EACE,WAAW;EACX,sBAAsB;CACvB","file":"datepicker-6.vue","sourcesContent":[".form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  line-height: 34px;\n  box-sizing: border-box;\n  padding: 0 10px;\n  border: 1px solid #ccc;\n  border-radius: 2px;\n  font-size: 14px;\n}\n.form-control:focus {\n  outline: 0;\n  border-color: #a8e7e7;\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  line-height: 34px;\n  box-sizing: border-box;\n  padding: 0 10px;\n  border: 1px solid #ccc;\n  border-radius: 2px;\n  font-size: 14px;\n}\n.form-control:focus {\n  outline: 0;\n  border-color: #a8e7e7;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/datepicker-5.vue"],"names":[],"mappings":"AAAA;EACE,eAAe;EACf,YAAY;EACZ,aAAa;EACb,kBAAkB;EAClB,uBAAuB;EACvB,gBAAgB;EAChB,uBAAuB;EACvB,mBAAmB;EACnB,gBAAgB;CACjB;AACD;EACE,WAAW;EACX,sBAAsB;CACvB","file":"datepicker-5.vue","sourcesContent":[".form-control {\n  display: block;\n  width: 100%;\n  height: 34px;\n  line-height: 34px;\n  box-sizing: border-box;\n  padding: 0 10px;\n  border: 1px solid #ccc;\n  border-radius: 2px;\n  font-size: 14px;\n}\n.form-control:focus {\n  outline: 0;\n  border-color: #a8e7e7;\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -980,7 +980,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/imageupload-5.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/imageupload-7.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1004,8 +1004,8 @@ webpackJsonp([1],Array(24).concat([
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-2ac821a8&file=imageupload-5.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./imageupload-5.vue", function() {
-				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-2ac821a8&file=imageupload-5.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./imageupload-5.vue");
+			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-2a8fc3a4&file=imageupload-7.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./imageupload-7.vue", function() {
+				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-2a8fc3a4&file=imageupload-7.vue!../../less-loader/index.js!../../vue-loader/lib/selector.js?type=style&index=0!./imageupload-7.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -1023,7 +1023,7 @@ webpackJsonp([1],Array(24).concat([
 	
 	
 	// module
-	exports.push([module.id, ".multi-images {\n  overflow: hidden;\n}\n.multi-images img {\n  width: 214px;\n  height: 100px;\n}\n.multi-images .add-image-btn {\n  width: 214px;\n  font-size: 40px;\n  line-height: 100px;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/imageupload-5.vue"],"names":[],"mappings":"AAAA;EACE,iBAAiB;CAClB;AACD;EACE,aAAa;EACb,cAAc;CACf;AACD;EACE,aAAa;EACb,gBAAgB;EAChB,mBAAmB;CACpB","file":"imageupload-5.vue","sourcesContent":[".multi-images {\n  overflow: hidden;\n}\n.multi-images img {\n  width: 214px;\n  height: 100px;\n}\n.multi-images .add-image-btn {\n  width: 214px;\n  font-size: 40px;\n  line-height: 100px;\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".multi-images {\n  overflow: hidden;\n}\n.multi-images img {\n  width: 214px;\n  height: 100px;\n}\n.multi-images .add-image-btn {\n  width: 214px;\n  font-size: 40px;\n  line-height: 100px;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/imageupload-7.vue"],"names":[],"mappings":"AAAA;EACE,iBAAiB;CAClB;AACD;EACE,aAAa;EACb,cAAc;CACf;AACD;EACE,aAAa;EACb,gBAAgB;EAChB,mBAAmB;CACpB","file":"imageupload-7.vue","sourcesContent":[".multi-images {\n  overflow: hidden;\n}\n.multi-images img {\n  width: 214px;\n  height: 100px;\n}\n.multi-images .add-image-btn {\n  width: 214px;\n  font-size: 40px;\n  line-height: 100px;\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -1208,7 +1208,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/messagebox-7.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/messagebox-6.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1407,7 +1407,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/modal-11.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/modal-9.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -1738,7 +1738,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/richeditor-9.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/richeditor-11.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2019,7 +2019,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/switch-15.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/switch-14.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2043,8 +2043,8 @@ webpackJsonp([1],Array(24).concat([
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-c43c2f76&file=switch-15.vue!../../vue-loader/lib/selector.js?type=style&index=0!./switch-15.vue", function() {
-				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-c43c2f76&file=switch-15.vue!../../vue-loader/lib/selector.js?type=style&index=0!./switch-15.vue");
+			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-c4585e78&file=switch-14.vue!../../vue-loader/lib/selector.js?type=style&index=0!./switch-14.vue", function() {
+				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-c4585e78&file=switch-14.vue!../../vue-loader/lib/selector.js?type=style&index=0!./switch-14.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -2062,7 +2062,7 @@ webpackJsonp([1],Array(24).concat([
 	
 	
 	// module
-	exports.push([module.id, "\n.switch {\n  margin: 10px 0;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/switch-15.vue?10c6c2ab"],"names":[],"mappings":";AAqFA;EACA,eAAA;CACA","file":"switch-15.vue","sourcesContent":["<template><section>\n\n<h2 id=\"switch-kai-guan\"><a class=\"header-anchor\" href=\"#switch-kai-guan\" aria-hidden=\"true\">¶</a> Switch 开关</h2>\n<p>表示两种相互对立的状态间的切换，多用于触发「开/关」。</p>\n<h3 id=\"ji-ben-yong-fa\"><a class=\"header-anchor\" href=\"#ji-ben-yong-fa\" aria-hidden=\"true\">¶</a> 基本用法</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-switch :status.sync=\"status1\"></d-switch>\n<d-switch :status.sync=\"status2\"></d-switch>\n\n\n</div>\n                      <p>通常只需要用到双向绑定 <code>status</code> 属性即可。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status1\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status2\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">script</span>&gt;</span><span class=\"javascript\">\n<span class=\"hljs-keyword\">export</span> <span class=\"hljs-keyword\">default</span> {\n  data() {\n    <span class=\"hljs-keyword\">return</span> {\n      <span class=\"hljs-attr\">status1</span>: <span class=\"hljs-literal\">false</span>,\n      <span class=\"hljs-attr\">status2</span>: <span class=\"hljs-literal\">true</span>\n    };\n  }\n};\n</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">script</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"jin-yong-zhuang-tai\"><a class=\"header-anchor\" href=\"#jin-yong-zhuang-tai\" aria-hidden=\"true\">¶</a> 禁用状态</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-switch :status.sync=\"status1\" :disabled=\"true\"></d-switch>\n\n\n</div>\n                      <p>设置<code>disabled</code>为<code>true</code>可以禁用该组件。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status1\"</span> <span class=\"hljs-attr\">:disabled</span>=<span class=\"hljs-string\">\"true\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">script</span>&gt;</span><span class=\"javascript\">\n<span class=\"hljs-keyword\">export</span> <span class=\"hljs-keyword\">default</span> {\n  data() {\n    <span class=\"hljs-keyword\">return</span> {\n      <span class=\"hljs-attr\">status1</span>: <span class=\"hljs-literal\">false</span>\n    };\n  }\n};\n</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">script</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\" aria-hidden=\"true\">¶</a> Attributes</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>disabled</td>\n<td>是否禁用</td>\n<td>boolean</td>\n<td>—</td>\n<td>false</td>\n</tr>\n<tr>\n<td>status</td>\n<td>当前开关状态</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n<tr>\n<td>onChange</td>\n<td>开关点击回调，可用于点击时需要确认等场合，在父组件中操作开关状态</td>\n<td>Function</td>\n<td>—</td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n</section></template>\n<style>\n.switch {\n  margin: 10px 0;\n}\n</style>\n<script>\nexport default {\n  data() {\n    return {\n      status1: false,\n      status2: true\n    };\n  }\n};\n</script>"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.switch {\n  margin: 10px 0;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/switch-14.vue?0f9bc2ea"],"names":[],"mappings":";AAqFA;EACA,eAAA;CACA","file":"switch-14.vue","sourcesContent":["<template><section>\n\n<h2 id=\"switch-kai-guan\"><a class=\"header-anchor\" href=\"#switch-kai-guan\" aria-hidden=\"true\">¶</a> Switch 开关</h2>\n<p>表示两种相互对立的状态间的切换，多用于触发「开/关」。</p>\n<h3 id=\"ji-ben-yong-fa\"><a class=\"header-anchor\" href=\"#ji-ben-yong-fa\" aria-hidden=\"true\">¶</a> 基本用法</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-switch :status.sync=\"status1\"></d-switch>\n<d-switch :status.sync=\"status2\"></d-switch>\n\n\n</div>\n                      <p>通常只需要用到双向绑定 <code>status</code> 属性即可。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status1\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status2\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">script</span>&gt;</span><span class=\"javascript\">\n<span class=\"hljs-keyword\">export</span> <span class=\"hljs-keyword\">default</span> {\n  data() {\n    <span class=\"hljs-keyword\">return</span> {\n      <span class=\"hljs-attr\">status1</span>: <span class=\"hljs-literal\">false</span>,\n      <span class=\"hljs-attr\">status2</span>: <span class=\"hljs-literal\">true</span>\n    };\n  }\n};\n</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">script</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"jin-yong-zhuang-tai\"><a class=\"header-anchor\" href=\"#jin-yong-zhuang-tai\" aria-hidden=\"true\">¶</a> 禁用状态</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-switch :status.sync=\"status1\" :disabled=\"true\"></d-switch>\n\n\n</div>\n                      <p>设置<code>disabled</code>为<code>true</code>可以禁用该组件。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-switch</span> <span class=\"hljs-attr\">:status.sync</span>=<span class=\"hljs-string\">\"status1\"</span> <span class=\"hljs-attr\">:disabled</span>=<span class=\"hljs-string\">\"true\"</span>&gt;</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-switch</span>&gt;</span>\n\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">script</span>&gt;</span><span class=\"javascript\">\n<span class=\"hljs-keyword\">export</span> <span class=\"hljs-keyword\">default</span> {\n  data() {\n    <span class=\"hljs-keyword\">return</span> {\n      <span class=\"hljs-attr\">status1</span>: <span class=\"hljs-literal\">false</span>\n    };\n  }\n};\n</span><span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">script</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\" aria-hidden=\"true\">¶</a> Attributes</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>disabled</td>\n<td>是否禁用</td>\n<td>boolean</td>\n<td>—</td>\n<td>false</td>\n</tr>\n<tr>\n<td>status</td>\n<td>当前开关状态</td>\n<td>boolean</td>\n<td>—</td>\n<td>true</td>\n</tr>\n<tr>\n<td>onChange</td>\n<td>开关点击回调，可用于点击时需要确认等场合，在父组件中操作开关状态</td>\n<td>Function</td>\n<td>—</td>\n<td>-</td>\n</tr>\n</tbody>\n</table>\n</section></template>\n<style>\n.switch {\n  margin: 10px 0;\n}\n</style>\n<script>\nexport default {\n  data() {\n    return {\n      status1: false,\n      status2: true\n    };\n  }\n};\n</script>"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -2236,7 +2236,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/tabs-17.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/tabs-16.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2366,7 +2366,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/timepicker-14.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/timepicker-17.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2454,7 +2454,7 @@ webpackJsonp([1],Array(24).concat([
 	  var hotAPI = require("vue-hot-reload-api")
 	  hotAPI.install(require("vue"), true)
 	  if (!hotAPI.compatible) return
-	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/tooltip-16.vue"
+	  var id = "/Applications/workspace/duiba-d/node_modules/vue-markdown-loader/_cache/tooltip-15.vue"
 	  if (!module.hot.data) {
 	    hotAPI.createRecord(id, module.exports)
 	  } else {
@@ -2478,8 +2478,8 @@ webpackJsonp([1],Array(24).concat([
 	if(false) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-361c6877&file=tooltip-16.vue!../../vue-loader/lib/selector.js?type=style&index=0!./tooltip-16.vue", function() {
-				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-361c6877&file=tooltip-16.vue!../../vue-loader/lib/selector.js?type=style&index=0!./tooltip-16.vue");
+			module.hot.accept("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-360e50f6&file=tooltip-15.vue!../../vue-loader/lib/selector.js?type=style&index=0!./tooltip-15.vue", function() {
+				var newContent = require("!!../../css-loader/index.js?sourceMap!../../vue-loader/lib/style-rewriter.js?id=_v-360e50f6&file=tooltip-15.vue!../../vue-loader/lib/selector.js?type=style&index=0!./tooltip-15.vue");
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -2497,7 +2497,7 @@ webpackJsonp([1],Array(24).concat([
 	
 	
 	// module
-	exports.push([module.id, "\n.tooltip-content {\n  color: #fff !important;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/tooltip-16.vue?6b07e54e"],"names":[],"mappings":";AAyEA;EACA,uBAAA;CACA","file":"tooltip-16.vue","sourcesContent":["<template><section>\n<h2 id=\"tooltip-wen-zi-ti-shi\"><a class=\"header-anchor\" href=\"#tooltip-wen-zi-ti-shi\" aria-hidden=\"true\">¶</a> Tooltip 文字提示</h2>\n<p>常用于展示鼠标 hover 时的提示信息。</p>\n<h3 id=\"ji-chu-yong-fa\"><a class=\"header-anchor\" href=\"#ji-chu-yong-fa\" aria-hidden=\"true\">¶</a> 基础用法</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-tooltip content=\"我是tooltip\">\n  <d-button type=\"text\">鼠标移动到我上面试试</d-button>\n</d-tooltip>\n<d-tooltip content=\"我是tooltip\" trigger=\"click\">\n  <d-button type=\"text\">点我试试</d-button>\n</d-tooltip>\n</div>\n                      <p>使用<code>content</code>属性来决定<code>hover</code>时的提示信息。由<code>placement</code>属性决定展示效果：<code>placement</code>属性值为：<code>方向-对齐位置</code>；四个方向：<code>top</code>、<code>left</code>、<code>right</code>、<code>bottom</code>。<code>trigger</code>属性用于设置触发<code>tooltip</code>的方式，默认为<code>hover</code>。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span> <span class=\"hljs-attr\">content</span>=<span class=\"hljs-string\">\"我是tooltip\"</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>鼠标移动到我上面试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span> <span class=\"hljs-attr\">content</span>=<span class=\"hljs-string\">\"我是tooltip\"</span> <span class=\"hljs-attr\">trigger</span>=<span class=\"hljs-string\">\"click\"</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>点我试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"content-nei-rong-fen-fa\"><a class=\"header-anchor\" href=\"#content-nei-rong-fen-fa\" aria-hidden=\"true\">¶</a> content内容分发</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-tooltip>\n  <d-button type=\"text\">鼠标移动到我上面试试</d-button>\n  <p slot=\"content\" class=\"tooltip-content\">我是内容分发的conent。</p>\n</d-tooltip>\n</div>\n                      <p>设置一个名为<code>content</code>的<code>slot</code>。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>鼠标移动到我上面试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">p</span> <span class=\"hljs-attr\">slot</span>=<span class=\"hljs-string\">\"content\"</span> <span class=\"hljs-attr\">class</span>=<span class=\"hljs-string\">\"tooltip-content\"</span>&gt;</span>我是内容分发的conent。<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">p</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\" aria-hidden=\"true\">¶</a> Attributes</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>content</td>\n<td>显示的内容，也可以通过 <code>slot#content</code> 传入 DOM</td>\n<td>String</td>\n<td>—</td>\n<td>—</td>\n</tr>\n<tr>\n<td>placement</td>\n<td>Tooltip 的出现位置</td>\n<td>String</td>\n<td>top/right/bottom/left</td>\n<td>top</td>\n</tr>\n<tr>\n<td>trigger</td>\n<td>tooltip触发方式</td>\n<td>String</td>\n<td>—</td>\n<td>hover</td>\n</tr>\n</tbody>\n</table>\n</section></template>\n<style>\n.tooltip-content {\n  color: #fff !important;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "\n.tooltip-content {\n  color: #fff !important;\n}\n", "", {"version":3,"sources":["/./node_modules/vue-markdown-loader/_cache/tooltip-15.vue?08359eba"],"names":[],"mappings":";AAyEA;EACA,uBAAA;CACA","file":"tooltip-15.vue","sourcesContent":["<template><section>\n<h2 id=\"tooltip-wen-zi-ti-shi\"><a class=\"header-anchor\" href=\"#tooltip-wen-zi-ti-shi\" aria-hidden=\"true\">¶</a> Tooltip 文字提示</h2>\n<p>常用于展示鼠标 hover 时的提示信息。</p>\n<h3 id=\"ji-chu-yong-fa\"><a class=\"header-anchor\" href=\"#ji-chu-yong-fa\" aria-hidden=\"true\">¶</a> 基础用法</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-tooltip content=\"我是tooltip\">\n  <d-button type=\"text\">鼠标移动到我上面试试</d-button>\n</d-tooltip>\n<d-tooltip content=\"我是tooltip\" trigger=\"click\">\n  <d-button type=\"text\">点我试试</d-button>\n</d-tooltip>\n</div>\n                      <p>使用<code>content</code>属性来决定<code>hover</code>时的提示信息。由<code>placement</code>属性决定展示效果：<code>placement</code>属性值为：<code>方向-对齐位置</code>；四个方向：<code>top</code>、<code>left</code>、<code>right</code>、<code>bottom</code>。<code>trigger</code>属性用于设置触发<code>tooltip</code>的方式，默认为<code>hover</code>。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span> <span class=\"hljs-attr\">content</span>=<span class=\"hljs-string\">\"我是tooltip\"</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>鼠标移动到我上面试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span> <span class=\"hljs-attr\">content</span>=<span class=\"hljs-string\">\"我是tooltip\"</span> <span class=\"hljs-attr\">trigger</span>=<span class=\"hljs-string\">\"click\"</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>点我试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"content-nei-rong-fen-fa\"><a class=\"header-anchor\" href=\"#content-nei-rong-fen-fa\" aria-hidden=\"true\">¶</a> content内容分发</h3>\n<demo-block class=\"demo-box\">\n                      <div class=\"source\" slot=\"source\"><d-tooltip>\n  <d-button type=\"text\">鼠标移动到我上面试试</d-button>\n  <p slot=\"content\" class=\"tooltip-content\">我是内容分发的conent。</p>\n</d-tooltip>\n</div>\n                      <p>设置一个名为<code>content</code>的<code>slot</code>。</p>\n\n                      <div class=\"highlight\" slot=\"highlight\"><pre><code class=\"hljs language-html\"><span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">d-button</span> <span class=\"hljs-attr\">type</span>=<span class=\"hljs-string\">\"text\"</span>&gt;</span>鼠标移动到我上面试试<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-button</span>&gt;</span>\n  <span class=\"hljs-tag\">&lt;<span class=\"hljs-name\">p</span> <span class=\"hljs-attr\">slot</span>=<span class=\"hljs-string\">\"content\"</span> <span class=\"hljs-attr\">class</span>=<span class=\"hljs-string\">\"tooltip-content\"</span>&gt;</span>我是内容分发的conent。<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">p</span>&gt;</span>\n<span class=\"hljs-tag\">&lt;/<span class=\"hljs-name\">d-tooltip</span>&gt;</span>\n</code></pre>\n</div></demo-block>\n<h3 id=\"attributes\"><a class=\"header-anchor\" href=\"#attributes\" aria-hidden=\"true\">¶</a> Attributes</h3>\n<table class=\"table\"><thead>\n<tr>\n<th>参数</th>\n<th>说明</th>\n<th>类型</th>\n<th>可选值</th>\n<th>默认值</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>content</td>\n<td>显示的内容，也可以通过 <code>slot#content</code> 传入 DOM</td>\n<td>String</td>\n<td>—</td>\n<td>—</td>\n</tr>\n<tr>\n<td>placement</td>\n<td>Tooltip 的出现位置</td>\n<td>String</td>\n<td>top/right/bottom/left</td>\n<td>top</td>\n</tr>\n<tr>\n<td>trigger</td>\n<td>tooltip触发方式</td>\n<td>String</td>\n<td>—</td>\n<td>hover</td>\n</tr>\n</tbody>\n</table>\n</section></template>\n<style>\n.tooltip-content {\n  color: #fff !important;\n}\n</style>\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 

@@ -2,7 +2,7 @@
     <i :class="classes" :style="styles"></i>
 </template>
 <script>
-    const prefixCls = 'd-icon';
+    const prefixCls = 'icon';
 
     export default {
       name: 'd-icon',

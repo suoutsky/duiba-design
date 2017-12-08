@@ -29,7 +29,7 @@ import ajax from './ajax';
 import { oneOf } from '../../utils/assist';
 import Emitter from '../../mixins/emitter';
 
-const prefixCls = 'ivu-upload';
+const prefixCls = 'd-upload';
 
 export default {
   name: 'd-upload',
@@ -160,6 +160,7 @@ export default {
       this.$refs.input.click();
     },
     handleChange(e) {
+      console.log(e);
       const files = e.target.files;
 
       if (!files) {
@@ -196,16 +197,16 @@ export default {
             this.post(file);
           }
         }, () => {
-                    // this.$emit('cancel', file);
+          // this.$emit('cancel', file);
         });
       } else if (before !== false) {
         this.post(file);
       } else {
-                // this.$emit('cancel', file);
+        // this.$emit('cancel', file);
       }
     },
     post(file) {
-            // check format
+      // check format
       if (this.format.length) {
         const fileFormat = file.name.split('.').pop().toLocaleLowerCase();
         const checked = this.format.some(item => item.toLocaleLowerCase() === fileFormat);
@@ -215,7 +216,7 @@ export default {
         }
       }
 
-            // check maxSize
+      // check maxSize
       if (this.maxSize) {
         if (file.size > this.maxSize * 1024) {
           this.onExceededSize(file, this.fileList);
@@ -326,3 +327,86 @@ export default {
   }
 };
 </script>
+<style lang="less">
+@upload-prefix-cls: d-upload;
+
+.@{upload-prefix-cls} {
+    input[type="file"]{
+        display: none;
+    }
+    &-input {
+      display: none;
+    }
+    &-list{
+        margin-top: 8px;
+
+        &-file{
+            padding: 4px;
+            color: #444;
+            border-radius: 4px;
+            transition: background-color 0.2s ease-in-out;
+            overflow: hidden;
+            position: relative;
+
+            & > span{
+                cursor: pointer;
+                transition: color 0.2 ease-in-out;
+                i{
+                    display: inline-block;
+                    width: 12px;
+                    height: 12px;
+                    color: #444;
+                    text-align: center;
+                }
+            }
+
+            &:hover{
+                background: #f3f3f3;
+                & > span{
+                    color: #2d8cf0;
+                    i{
+                        color: #444;
+                    }
+                }
+                .@{upload-prefix-cls}-list-remove{
+                    opacity: 1;
+                }
+            }
+        }
+        &-remove{
+            opacity: 0;
+            font-size: 18px;
+            cursor: pointer;
+            float: right;
+            margin-right: 4px;
+            color: #999;
+            transition: all 0.2s ease;
+            &:hover{
+                color: #444;
+            }
+        }
+    }
+
+     &-select {
+        display: inline-block;
+    }
+    
+    &-drag{
+        background: #fff;
+        border: 1px dashed #dddee1;
+        border-radius: 4px;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: border-color 0.2s ease;
+
+        &:hover{
+            border: 1px dashed #2d8cf0;
+        }
+    }
+    &-dragOver{
+        border: 2px dashed #2d8cf0;
+    }
+}
+</style>

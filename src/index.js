@@ -20,6 +20,7 @@ import Select from './components/Select';
 // import MultiImageUpload from './components/MultiImageUpload';
 import Upload from './components/Upload';
 import Icon from './components/Icon';
+import Progress from './components/Progress';
 
 import RichEditor from './components/RichEditor';
 
@@ -43,6 +44,7 @@ const components = [
   Select,
   Upload,
   Icon,
+  Progress,
   // FileUpload,
   // ImageUpload,
   // MultiImageUpload,
@@ -97,5 +99,6 @@ export default {
   // MultiImageUpload,
   Upload,
   Icon,
+  Progress,
   RichEditor
 };

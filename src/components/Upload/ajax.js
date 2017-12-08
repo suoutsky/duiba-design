@@ -23,6 +23,7 @@ function getBody(xhr) {
 }
 
 export default function upload(option) {
+  console.log(option);
   if (typeof XMLHttpRequest === 'undefined') {
     return;
   }

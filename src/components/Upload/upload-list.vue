@@ -12,24 +12,24 @@
                 :class="[prefixCls + '-list-remove']"
                 v-show="file.status === 'finished'"
                 @click.native="handleRemove(file)"></Icon>
-            <!-- <transition name="fade">
-                <i-progress
+            <transition name="fade">
+                <d-progress
                     v-if="file.showProgress"
                     :stroke-width="2"
                     :percent="parsePercentage(file.percentage)"
-                    :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"></i-progress>
-            </transition> -->
+                    :status="file.status === 'finished' && file.showProgress ? 'success' : 'normal'"></d-progress>
+            </transition>
         </li>
     </ul>
 </template>
 <script>
 import Icon from '../Icon.vue';
-// import iProgress from '../progress/progress.vue';
-const prefixCls = 'ivu-upload';
+import Dprogress from '../Progress.vue';
+const prefixCls = 'd-upload';
 
 export default {
   name: 'UploadList',
-  components: { Icon },
+  components: {Icon, Dprogress},
   props: {
     files: {
       type: Array,
@@ -92,3 +92,4 @@ export default {
   }
 };
 </script>
+
